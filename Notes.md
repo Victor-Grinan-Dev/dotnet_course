@@ -28,3 +28,7 @@ c# & c# dev kit
 ```shell
 dotnet restore
 ```
+
+```c#
+Console.writeline(args[0]);
+```
