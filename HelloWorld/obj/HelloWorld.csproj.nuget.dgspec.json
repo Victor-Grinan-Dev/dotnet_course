@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\victo\\desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj": {}
+    "C:\\Users\\victo\\Desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj": {}
   },
   "projects": {
-    "C:\\Users\\victo\\desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj": {
+    "C:\\Users\\victo\\Desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\victo\\desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj",
+        "projectUniqueName": "C:\\Users\\victo\\Desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj",
         "projectName": "HelloWorld",
-        "projectPath": "C:\\Users\\victo\\desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj",
+        "projectPath": "C:\\Users\\victo\\Desktop\\projects\\udemy\\dotnet\\HelloWorld\\HelloWorld.csproj",
         "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\victo\\desktop\\projects\\udemy\\dotnet\\HelloWorld\\obj\\",
+        "outputPath": "C:\\Users\\victo\\Desktop\\projects\\udemy\\dotnet\\HelloWorld\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"
