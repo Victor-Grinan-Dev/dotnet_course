@@ -3,6 +3,8 @@
 
 //C# is a staticaly typed language
 
+using System.Runtime.CompilerServices;
+
 Console.WriteLine(args[0]);
 
 //// 1 byte is made up of 8 bits 00000000 - these bits can be used to store a number as follows
@@ -202,8 +204,30 @@ while(num < 10)
 }
 Console.WriteLine("");
 
-num = 0;
 do{
    Console.Write(num);
    num++;
 }while(num < 10);
+Console.WriteLine("");
+
+int totalValue = thatArray.Sum();
+Console.WriteLine(totalValue);
+
+/*** methods ***/
+
+static int GetSUm(int[] anArray)
+{
+    foreach (var item in anArray)
+    {
+        Console.Write(item);
+    }
+    Console.WriteLine("");
+
+    return anArray.Sum();
+}
+
+int result = GetSUm(thatArray);
+Console.WriteLine(result);
+
+
+/*** SCOPE ****/
