@@ -173,4 +173,37 @@ Console.WriteLine(number != secondNum/2);
 Console.WriteLine(number >= secondNum);
 Console.WriteLine(number <= secondNum);
 
+// && and || or
 
+DateTime startTime = DateTime.Now;
+
+Console.WriteLine(startTime);
+//2.6-6E means divide the first number by (10 power 6)
+
+/*** LOOPS ***/
+
+int[] thatArray = {0,1,2,3,4,5,6,7,8,9};
+
+for(int i = 0; i < 10; i++){
+ Console.Write(i);
+}
+Console.WriteLine("");
+
+foreach(int itemOfAnArray in thatArray){
+ Console.Write(itemOfAnArray);
+}
+Console.WriteLine("");
+
+int num = 0;
+while(num < 10)
+{
+   Console.Write(num);
+   num++;
+}
+Console.WriteLine("");
+
+num = 0;
+do{
+   Console.Write(num);
+   num++;
+}while(num < 10);
