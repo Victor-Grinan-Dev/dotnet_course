@@ -3,8 +3,6 @@
 
 //C# is a staticaly typed language
 
-using System.Runtime.CompilerServices;
-
 Console.WriteLine(args[0]);
 
 //// 1 byte is made up of 8 bits 00000000 - these bits can be used to store a number as follows
@@ -230,4 +228,39 @@ int result = GetSUm(thatArray);
 Console.WriteLine(result);
 
 
+
+
+
+
 /*** SCOPE ****/
+//??????????
+// static void Main(){
+//     Console.WriteLine()
+// }
+
+/***** MODELS *****/
+namespace Models
+{
+    public class Computer
+    {
+        // public string _motherboard;
+        public string Motherboard {get; set;}
+        private int CPUCores {get; set;}
+        private bool HasWIfi {get; set;}  
+        public string VideoCard {get; set;}
+
+        public Computer()
+        {
+            VideoCard ??= ""; //if videocard is null assign empty string
+            Motherboard ??= "";
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(args[0]);
+        }
+    }
+}
