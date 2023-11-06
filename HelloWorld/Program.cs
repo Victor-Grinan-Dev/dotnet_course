@@ -3,6 +3,12 @@
 
 //C# is a staticaly typed language
 
+using System.IO.Pipes;
+using System.Net;
+using System.Text;
+
+using HelloWorld.Models;
+
 Console.WriteLine(args[0]);
 
 //// 1 byte is made up of 8 bits 00000000 - these bits can be used to store a number as follows
@@ -228,39 +234,50 @@ int result = GetSUm(thatArray);
 Console.WriteLine(result);
 
 
-
-
-
-
-/*** SCOPE ****/
-//??????????
-// static void Main(){
-//     Console.WriteLine()
-// }
-
 /***** MODELS *****/
-namespace Models
+Console.WriteLine("*** COMPUTER MODEL: ***");
+/*NOTE: some how the declaration of the class goes after the instant creation... i dont understand*/
+Computer MyComputer = new()
 {
+    CPUCores = 8,
+    HasWIfi = true,
+    HasLTE = false,
+    ReleaseDate = DateTime.Now,
+    Price = 943.87m,
+    VideoCard = "RTX-2060"
+};
+
+/*** SCOPE: Namespaces ****/
+/* you cant write methods or declarations in side a namespace but you cant declare classes and structure etc */
+/* the Following model "computer" was declared in its own name space */
+
+Console.WriteLine(MyComputer.CPUCores);
+    Console.WriteLine(MyComputer.ReleaseDate);
+    Console.WriteLine(MyComputer.Price);
+    Console.WriteLine(MyComputer.VideoCard);
+    Console.WriteLine(MyComputer.HasWIfi);
     public class Computer
     {
+        //private string _mothreboard; /*this is a field*/
+        /*ALL THIS SHORT HANDED =>*/ //private string Motherboard {get; set;}
         // public string _motherboard;
-        public string Motherboard {get; set;}
-        private int CPUCores {get; set;}
-        private bool HasWIfi {get; set;}  
-        public string VideoCard {get; set;}
-
-        public Computer()
+        //private string Motherboard {get{return _mothreboard;} set{ _mothreboard = value;}}
+        public string Motherboard {get; set;} 
+        public int CPUCores {get; set;} /*this is a class atribute (property)*/
+        public bool HasWIfi {get; set;} 
+        public bool HasLTE {get; set;} 
+        public DateTime ReleaseDate {get; set;} 
+        public decimal Price {get; set;} 
+        public string? VideoCard {get; set;} = ""; /*** EASIEST WAY TO DECLARE NULLABLE ATR ***/
+        public Computer()//constructor
         {
-            VideoCard ??= ""; //if videocard is null assign empty string
-            Motherboard ??= "";
+            Motherboard ??= "";//if Motherboard is null assign empty string
         }
     }
 
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine(args[0]);
-        }
-    }
-}
+
+
+        
+
+       
+
