@@ -32,3 +32,13 @@ dotnet restore
 ```c#
 Console.writeline(args[0]);
 ```
+
+- To connect we need to add a few packages:
+Dapper, 
+
+```shell
+dotnet add package Dapper
+dotnet add package microsoft.data.sqlclient
+dotnet add package microsoft.entityframeworkcore
+dotnet add package microsoft.entityframeworkcore.sqlserver
+```
