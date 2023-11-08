@@ -8,10 +8,10 @@ using System.Net;
 using System.Text;
 
 using HelloWorld.Models;
+using HelloWorld.Data;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using Dapper;
-
 
 
 if(args.Length == 0){
@@ -291,24 +291,22 @@ else if(args[0] == "db-connect")
 
 {
     Console.WriteLine();
-    string connectionString = "Server=localhost;Database=DotNetDB;TrustServerCertificate=true;Trusted_Connection=true;";
 
-    IDbConnection dbConnection = new SqlConnection(connectionString); 
+    DataContextDapper dapper = new();
 
     /** TEST CONNECTION **/
     if(args.Length > 1 &&  args [1] == "test"){
-        string sqlCommand = "SELECT GETDATE()";
 
-        DateTime rightNow = dbConnection.QuerySingle<DateTime>(sqlCommand);
+        DateTime rightNow = dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
 
         Console.WriteLine();
         Console.WriteLine("If the date in the following line is correct then a succeful connection has been made.");
         Console.WriteLine(rightNow);
         Console.WriteLine();
-    }else{
+    }else if(args.Length > 1 &&  args [1] == "insert"){
         Computer myComputer = new()
         {
-            Motherboard = "Z600",
+            Motherboard = "Z690",
             CPUCores = 8,
             HasWIfi = true,
             HasLTE = false,
@@ -331,7 +329,7 @@ else if(args[0] == "db-connect")
             HasLTE,
             ReleaseDate,
             Price,
-            VideoCard,
+            VideoCard
         ) VALUES ('" + myComputer.Motherboard 
                 + "','" + myComputer.CPUCores
                 + "','" + myComputer.HasWIfi
@@ -340,13 +338,41 @@ else if(args[0] == "db-connect")
                 + "','" + myComputer.Price.ToString().Replace(",", ".") //replace coma for a dot
                 + "','" + myComputer.VideoCard
         + "')";
-
          Console.WriteLine(sql);
-         Console.WriteLine();
+         bool result = dapper.ExecuteSql(sql);
+
+         if(result){
+            Console.WriteLine("Database mutation success!");
+         }
+
+        Console.WriteLine();
+         
+    }else if(args.Length > 1 &&  args [1] == "read"){
+        string sqlSelect = @"
+            SELECT 
+                Computer.Motherboard,
+                Computer.CPUCores,
+                Computer.HasWIfi,
+                Computer.HasLTE,
+                Computer.ReleaseDate,
+                Computer.Price,
+                Computer.VideoCard
+             FROM TutorialApp.Computer";
+
+        IEnumerable<Computer> computers = dapper.LoadData<Computer>(sqlSelect); //.ToList()
+
+        Console.WriteLine("Motherboard, CPUCores, HasWIfi, HasLTE, ReleaseDate, Price, VideoCard");
+         foreach(Computer singlecomputer in computers){
+            Console.WriteLine("'" + singlecomputer.Motherboard 
+                + "','" + singlecomputer.CPUCores
+                + "','" + singlecomputer.HasWIfi
+                + "','" + singlecomputer.HasLTE
+                + "','" + singlecomputer.ReleaseDate.ToString("yyyy-MM-dd") //format date
+                + "','" + singlecomputer.Price.ToString().Replace(",", ".") //replace coma for a dot
+                + "','" + singlecomputer.VideoCard
+        + "'");
+         }
     }
-
-   
-
 
 }
 else
@@ -362,6 +388,8 @@ else
     Console.WriteLine(" - models");
     Console.WriteLine(" - db-connect");
     Console.WriteLine(" - db-connect test");
+    Console.WriteLine(" - db-connect insert");
+    Console.WriteLine(" - db-connect read");
     Console.WriteLine();
 }
 

@@ -24,4 +24,16 @@ CREATE TABLE TutorialApp.Computer(
 );
 
 SELECT * FROM TutorialApp.Computer
+
+
+INSERT INTO TutorialApp.Computer (
+            Motherboard,
+            CPUCores,
+            HasWIfi,
+            HasLTE,
+            ReleaseDate,
+            Price,
+            VideoCard
+        ) VALUES ('Z600','8','True','False','2023-11-08','943.87','RTX-2060')
 ```
+
