@@ -8,33 +8,51 @@ using System.Net;
 using System.Text;
 
 using HelloWorld.Models;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using Dapper;
 
-Console.WriteLine(args[0]);
 
-//// 1 byte is made up of 8 bits 00000000 - these bits can be used to store a number as follows
-// //// Each bit can be worth 0 or 1 of the value it is placed in
-// ////// From the right we start with a value of 1 and double for each digit to the left
-// //// 00000000 = 0
-// //// 00000001 = 1
-// //// 00000010 = 2
-// //// 00000011 = 3
-// //// 00000100 = 4
-// //// 00000101 = 5
-// //// 00000110 = 6
-// //// 00000111 = 7
-// //// 00001000 = 8
 
-// 1 byte (8 bit) unsigned, where signed means it can be negative
-byte myByte = 255;
-Console.Write(myByte);
-byte mySecondByte = 0;
-Console.Write(mySecondByte);
+if(args.Length == 0){
+    Console.WriteLine("Run the program with specified args");
+    Console.WriteLine("test: respeat");
+    Console.WriteLine("Run the program with specified args");
+    Console.WriteLine("Run the program with specified args");
+    Console.WriteLine("Run the program with specified args");
+}
+else if(args[0] == "bit-byte")
+{
+    Console.WriteLine(" 1 byte is made up of 8 bits 00000000 - these bits can be used to store a number as follows");
+    Console.WriteLine(" Each bit can be worth 0 or 1 of the value it is placed in");
+    Console.WriteLine(" From the right we start with a value of 1 and double for each digit to the left");
+    Console.WriteLine(" 00000000 = 0");
+    Console.WriteLine(" 00000001 = 1");
+    Console.WriteLine(" 00000010 = 2");
+    Console.WriteLine(" 00000011 = 3");
+    Console.WriteLine(" 00000100 = 4");
+    Console.WriteLine(" 00000101 = 5");
+    Console.WriteLine(" 00000110 = 6");
+    Console.WriteLine(" 00000111 = 7");
+    Console.WriteLine(" 00001000 = 8");
+    Console.WriteLine("");
+    
+}
+else if(args[0] == "data-types")
+{
+        // 1 byte (8 bit) unsigned, where signed means it can be negative
+    Console.WriteLine(" 1 byte (8 bit) unsigned, where signed means it can be negative");
+    byte myByte = 255;
+    Console.Write(myByte);
+    byte mySecondByte = 0;
+    Console.Write(mySecondByte);
 
-// 1 byte (8 bit) signed, where signed means it can be negative
-sbyte mySbyte = 127;
-Console.Write(mySbyte);
-sbyte mySecondSbyte = -128;
-Console.Write(mySecondSbyte);
+    Console.WriteLine(" 1 byte (8 bit) signed, where signed means it can be negative");
+    // 1 byte (8 bit) signed, where signed means it can be negative
+    sbyte mySbyte = 127;
+    Console.Write(mySbyte);
+    sbyte mySecondSbyte = -128;
+    Console.Write(mySecondSbyte);
 
 
 // 2 byte (16 bit) unsigned, where signed means it can be negative
@@ -83,7 +101,10 @@ Console.WriteLine(myStringWithSymbols);
 bool myBool = true;
 Console.WriteLine(myBool);
 
-/**** ARRAYS ****/ // array are static and they cant be expanded
+}
+else if(args[0] == "collections")
+{
+    /**** ARRAYS ****/ // array are static and they cant be expanded
 string[] myGrocery = new string[2]; //declared only ttwo items but assigned a 3rd item in index 2.
 
 myGrocery[0] = "guacamole";
@@ -133,6 +154,9 @@ Dictionary<string, double> itemPrices = new Dictionary<string, double>{
 
 Console.WriteLine(itemPrices["cheese"]);
 
+}
+else if(args[0] == "operations")
+{
 /*Operations*/
 
 // ++
@@ -180,11 +204,9 @@ Console.WriteLine(number >= secondNum);
 Console.WriteLine(number <= secondNum);
 
 // && and || or
-
-DateTime startTime = DateTime.Now;
-
-Console.WriteLine(startTime);
-//2.6-6E means divide the first number by (10 power 6)
+}
+else if(args[0] == "iterations")
+{
 
 /*** LOOPS ***/
 
@@ -233,8 +255,10 @@ static int GetSUm(int[] anArray)
 int result = GetSUm(thatArray);
 Console.WriteLine(result);
 
-
-/***** MODELS *****/
+}
+else if(args[0] == "models")
+{
+    /***** MODELS *****/
 Console.WriteLine("*** COMPUTER MODEL: ***");
 /*NOTE: some how the declaration of the class goes after the instant creation... i dont understand*/
 Computer MyComputer = new()
@@ -251,29 +275,96 @@ Computer MyComputer = new()
 /* you cant write methods or declarations in side a namespace but you cant declare classes and structure etc */
 /* the Following model "computer" was declared in its own name space */
 
-Console.WriteLine(MyComputer.CPUCores);
+    Console.Write("MyComputer.CPUCores: ");
+    Console.WriteLine(MyComputer.CPUCores);
+    Console.Write("MyComputer.ReleaseDate: ");
     Console.WriteLine(MyComputer.ReleaseDate);
+    Console.Write("MyComputer.Price: ");
     Console.WriteLine(MyComputer.Price);
+    Console.Write("MyComputer.VideoCard: ");
     Console.WriteLine(MyComputer.VideoCard);
+    Console.Write("MyComputer.HasWIfi: ");
     Console.WriteLine(MyComputer.HasWIfi);
-    public class Computer
-    {
-        //private string _mothreboard; /*this is a field*/
-        /*ALL THIS SHORT HANDED =>*/ //private string Motherboard {get; set;}
-        // public string _motherboard;
-        //private string Motherboard {get{return _mothreboard;} set{ _mothreboard = value;}}
-        public string Motherboard {get; set;} 
-        public int CPUCores {get; set;} /*this is a class atribute (property)*/
-        public bool HasWIfi {get; set;} 
-        public bool HasLTE {get; set;} 
-        public DateTime ReleaseDate {get; set;} 
-        public decimal Price {get; set;} 
-        public string? VideoCard {get; set;} = ""; /*** EASIEST WAY TO DECLARE NULLABLE ATR ***/
-        public Computer()//constructor
+
+}
+else if(args[0] == "db-connect")
+
+{
+    Console.WriteLine();
+    string connectionString = "Server=localhost;Database=DotNetDB;TrustServerCertificate=true;Trusted_Connection=true;";
+
+    IDbConnection dbConnection = new SqlConnection(connectionString); 
+
+    /** TEST CONNECTION **/
+    if(args.Length > 1 &&  args [1] == "test"){
+        string sqlCommand = "SELECT GETDATE()";
+
+        DateTime rightNow = dbConnection.QuerySingle<DateTime>(sqlCommand);
+
+        Console.WriteLine();
+        Console.WriteLine("If the date in the following line is correct then a succeful connection has been made.");
+        Console.WriteLine(rightNow);
+        Console.WriteLine();
+    }else{
+        Computer myComputer = new()
         {
-            Motherboard ??= "";//if Motherboard is null assign empty string
-        }
+            Motherboard = "Z600",
+            CPUCores = 8,
+            HasWIfi = true,
+            HasLTE = false,
+            ReleaseDate = DateTime.Now,
+            Price = 943.87m,
+            VideoCard = "RTX-2060"
+        };
+
+        // Console.WriteLine("CPUCores: " + myComputer.CPUCores);
+        // Console.WriteLine("HasWIfi: " + myComputer.HasWIfi);
+        // Console.WriteLine("HasLTE: " + myComputer.HasLTE);
+        // Console.WriteLine("ReleaseDate: " + myComputer.ReleaseDate.ToString("yyyy-MM-dd"));
+        // Console.WriteLine("Price: " + myComputer.Price.ToString().Replace(",", ".") );
+        // Console.WriteLine("VideoCard: " + myComputer.VideoCard);
+
+        string sql = @"INSERT INTO TutorialApp.Computer (
+            Motherboard,
+            CPUCores,
+            HasWIfi,
+            HasLTE,
+            ReleaseDate,
+            Price,
+            VideoCard,
+        ) VALUES ('" + myComputer.Motherboard 
+                + "','" + myComputer.CPUCores
+                + "','" + myComputer.HasWIfi
+                + "','" + myComputer.HasLTE
+                + "','" + myComputer.ReleaseDate.ToString("yyyy-MM-dd") //format date
+                + "','" + myComputer.Price.ToString().Replace(",", ".") //replace coma for a dot
+                + "','" + myComputer.VideoCard
+        + "')";
+
+         Console.WriteLine(sql);
+         Console.WriteLine();
     }
+
+   
+
+
+}
+else
+{
+    Console.WriteLine();
+    Console.WriteLine("The specified arg '" + args[0] + "' was not found.");
+    Console.WriteLine("Here is a list of args to try: ");
+    Console.WriteLine(" - bit-byte");
+    Console.WriteLine(" - data-types");
+    Console.WriteLine(" - collections");
+    Console.WriteLine(" - operations");
+    Console.WriteLine(" - iterations");
+    Console.WriteLine(" - models");
+    Console.WriteLine(" - db-connect");
+    Console.WriteLine(" - db-connect test");
+    Console.WriteLine();
+}
+
 
 
 
