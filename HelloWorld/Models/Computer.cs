@@ -6,6 +6,7 @@ namespace HelloWorld.Models
         /*ALL THIS SHORT HANDED =>*/ //private string Motherboard {get; set;}
         // public string _motherboard;
         //private string Motherboard {get{return _mothreboard;} set{ _mothreboard = value;}}
+        public int ComputerId {get; set;} 
         public string Motherboard {get; set;} 
         public int CPUCores {get; set;} /*this is a class atribute (property)*/
         public bool HasWIfi {get; set;} 

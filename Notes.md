@@ -41,6 +41,14 @@ dotnet add package Dapper
 dotnet add package microsoft.data.sqlclient
 dotnet add package microsoft.entityframeworkcore
 dotnet add package microsoft.entityframeworkcore.sqlserver
+dotnet add package microsoft.Extensions.Configuration
+dotnet add package microsoft.Extensions.Configuration.Json
+dotnet add package Newtonsoft.Json
+```
+
+- to add new packages do:
+```shell
+dotnet restore
 ```
 
 - Create the first connection:

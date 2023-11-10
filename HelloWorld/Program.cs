@@ -12,14 +12,62 @@ using HelloWorld.Data;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using Dapper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client;
+using Newtonsoft;
+using Newtonsoft.Json;
 
+// using (StreamReader r = new("appsettings.json"))
+// {
+//     string json = r.ReadToEnd();
+// }
+// Console.WriteLine(json);
+
+string[] commands = {
+    "bit-byte",
+    "data-types",
+    "collections",
+    "operations",
+    "iterations",
+    "models",
+    "db-connect",
+    "db-connect test",
+    "db-connect insert",
+    "db-connect read",
+};
+
+IConfiguration config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+void PrintCmd(){
+    foreach(string cmd in commands){
+        Console.WriteLine(" - " + cmd);
+    }
+}
+
+string title =@"
+
+██████╗░░█████╗░████████╗███╗░░██╗███████╗████████╗  ░█████╗░██████╗░██████╗░
+██╔══██╗██╔══██╗╚══██╔══╝████╗░██║██╔════╝╚══██╔══╝  ██╔══██╗██╔══██╗██╔══██╗
+██║░░██║██║░░██║░░░██║░░░██╔██╗██║█████╗░░░░░██║░░░  ███████║██████╔╝██████╔╝
+██║░░██║██║░░██║░░░██║░░░██║╚████║██╔══╝░░░░░██║░░░  ██╔══██║██╔═══╝░██╔═══╝░
+██████╔╝╚█████╔╝░░░██║░░░██║░╚███║███████╗░░░██║░░░  ██║░░██║██║░░░░░██║░░░░░
+╚═════╝░░╚════╝░░░░╚═╝░░░╚═╝░░╚══╝╚══════╝░░░╚═╝░░░  ╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░░░
+                                                            By Victor Griñan
+";
+
+
+Console.WriteLine();
+Console.WriteLine(title);
+Console.WriteLine();
 
 if(args.Length == 0){
     Console.WriteLine("Run the program with specified args");
-    Console.WriteLine("test: respeat");
-    Console.WriteLine("Run the program with specified args");
-    Console.WriteLine("Run the program with specified args");
-    Console.WriteLine("Run the program with specified args");
+    Console.WriteLine("here is a list of valid commands as args:");
+
+    PrintCmd();
+
 }
 else if(args[0] == "bit-byte")
 {
@@ -292,7 +340,10 @@ else if(args[0] == "db-connect")
 {
     Console.WriteLine();
 
-    DataContextDapper dapper = new();
+    DataContextDapper dapper = new(config);
+    DataContextEF entityFramework = new(config);
+    // DataContextDapper dapper = new(config);
+    // DataContextEF entityFramework = new(config);
 
     /** TEST CONNECTION **/
     if(args.Length > 1 &&  args [1] == "test"){
@@ -314,6 +365,10 @@ else if(args[0] == "db-connect")
             Price = 943.87m,
             VideoCard = "RTX-2060"
         };
+
+        /* NOTE: This 2 lines does exactly the same that the code block above */
+        entityFramework.Add(myComputer);
+        entityFramework.SaveChanges();
 
         // Console.WriteLine("CPUCores: " + myComputer.CPUCores);
         // Console.WriteLine("HasWIfi: " + myComputer.HasWIfi);
@@ -350,6 +405,7 @@ else if(args[0] == "db-connect")
     }else if(args.Length > 1 &&  args [1] == "read"){
         string sqlSelect = @"
             SELECT 
+                Computer.ComputerId,
                 Computer.Motherboard,
                 Computer.CPUCores,
                 Computer.HasWIfi,
@@ -359,11 +415,13 @@ else if(args[0] == "db-connect")
                 Computer.VideoCard
              FROM TutorialApp.Computer";
 
-        IEnumerable<Computer> computers = dapper.LoadData<Computer>(sqlSelect); //.ToList()
+        IEnumerable<Computer> computers = dapper.LoadData<Computer>(sqlSelect); //.ToList() 
 
-        Console.WriteLine("Motherboard, CPUCores, HasWIfi, HasLTE, ReleaseDate, Price, VideoCard");
+        Console.WriteLine("/* Dapper */");
+        Console.WriteLine("ID, Motherboard, CPUCores, HasWIfi, HasLTE, ReleaseDate, Price, VideoCard");
          foreach(Computer singlecomputer in computers){
-            Console.WriteLine("'" + singlecomputer.Motherboard 
+            Console.WriteLine("'" + singlecomputer.ComputerId 
+                + "','" + singlecomputer.Motherboard
                 + "','" + singlecomputer.CPUCores
                 + "','" + singlecomputer.HasWIfi
                 + "','" + singlecomputer.HasLTE
@@ -372,7 +430,43 @@ else if(args[0] == "db-connect")
                 + "','" + singlecomputer.VideoCard
         + "'");
          }
+
+
+        IEnumerable<Computer>? computersEF = entityFramework.Computer?.ToList<Computer>();
+
+        if(computersEF != null){
+            Console.WriteLine();
+            Console.WriteLine("/* Entity Framework */");
+            Console.WriteLine("ID, Motherboard, CPUCores, HasWIfi, HasLTE, ReleaseDate, Price, VideoCard");
+            foreach(Computer singlecomputer in computersEF){
+                Console.WriteLine("'" + singlecomputer.ComputerId
+                    + "','" + singlecomputer.Motherboard
+                    + "','" + singlecomputer.CPUCores
+                    + "','" + singlecomputer.HasWIfi
+                    + "','" + singlecomputer.HasLTE
+                    + "','" + singlecomputer.ReleaseDate.ToString("yyyy-MM-dd") //format date
+                    + "','" + singlecomputer.Price.ToString().Replace(",", ".") //replace coma for a dot
+                    + "','" + singlecomputer.VideoCard
+            + "'");
+        }
+
+         }
+         Console.WriteLine();
     }
+
+
+
+}else if(args[0] == "read-json")
+{
+    /*** DESERIALIZE JSON DATA ****/
+    Console.WriteLine();
+    Console.WriteLine("***** READ JSON *****");
+    Console.WriteLine();
+
+    // dynamic jsonFile = JsonConvert.DeserializeObject(File.ReadAllText("appsetting.json"));
+    // Console.WriteLine(jsonFile);
+
+
 
 }
 else
@@ -380,23 +474,16 @@ else
     Console.WriteLine();
     Console.WriteLine("The specified arg '" + args[0] + "' was not found.");
     Console.WriteLine("Here is a list of args to try: ");
-    Console.WriteLine(" - bit-byte");
-    Console.WriteLine(" - data-types");
-    Console.WriteLine(" - collections");
-    Console.WriteLine(" - operations");
-    Console.WriteLine(" - iterations");
-    Console.WriteLine(" - models");
-    Console.WriteLine(" - db-connect");
-    Console.WriteLine(" - db-connect test");
-    Console.WriteLine(" - db-connect insert");
-    Console.WriteLine(" - db-connect read");
+    PrintCmd();
     Console.WriteLine();
 }
+Console.WriteLine();
+Console.WriteLine("Press any key to end");
+Console.ReadKey();
+Console.WriteLine();
 
 
 
-
-        
 
        
 
